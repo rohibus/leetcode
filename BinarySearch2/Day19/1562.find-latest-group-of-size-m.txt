@@ -1,0 +1,28 @@
+public class Solution {
+    public int FindLatestStep(int[] arr, int m) {
+        int res = -1, counter = 0;
+        int[] length = new int[arr.Length+2];
+        
+        for(int i=0; i < arr.Length; i++)
+        {
+            int center = arr[i];
+            int left = length[center-1], right = length[center+1];
+            
+            length[center] = length[center-left] = length[center+right] = left+1+right;
+            
+            if(left == m)
+                counter--;
+            
+            if(right == m)
+                counter--;
+            
+            if(length[center] == m)
+                counter++;
+            
+            if(counter > 0)
+                res = i+1;
+        }
+        
+        return res;
+    }
+}
