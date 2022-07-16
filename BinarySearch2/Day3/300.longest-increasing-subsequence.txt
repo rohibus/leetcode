@@ -1,0 +1,19 @@
+public class Solution {
+    public int LengthOfLIS(int[] nums) {
+        int[] dp = new int[nums.Length+1];
+        Array.Fill(dp, 1);
+        
+        for (int i = 1; i < nums.Length; i++)
+        {
+            for (int j = 0; j < i; j++)
+            {
+                if (nums[i] > nums[j])
+                {
+                    dp[i] = Math.Max(dp[i], 1 + dp[j]);
+                }
+            }
+        }
+        
+        return dp.Max();
+    }
+}
