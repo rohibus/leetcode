@@ -1,0 +1,54 @@
+public class Solution {
+    int[] nums;
+    public int HIndex(int[] citations) 
+    {
+        int left = 0;
+        int right = citations.Length;
+        int index = 0;
+        nums = citations;
+        
+        while (left <= right)
+        {
+            int mid = left + (right-left)/2;
+            int id = Search(mid);
+            
+            int len = citations.Length - id;
+            
+            if (len >= mid)
+            {
+                index = mid;
+                left = mid+1;
+            }
+            else
+            {
+                right = mid-1;
+            }
+        }
+        
+        return index;
+    }
+    
+    public int Search(int key)
+    {
+        int left = 0;
+        int right = nums.Length-1;
+        int index = nums.Length;
+        
+        while (left <= right)
+        {
+            int mid = left + (right- left)/2;
+            
+            if (nums[mid] >= key)
+            {
+                index = mid;
+                right = mid-1;
+            }
+            else
+            {
+                left = mid + 1;
+            }
+        }
+        
+        return index;
+    }
+}

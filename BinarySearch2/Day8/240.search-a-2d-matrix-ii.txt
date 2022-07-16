@@ -1,0 +1,14 @@
+public class Solution {
+    public bool SearchMatrix(int[][] matrix, int target) 
+    {
+        for (int i = 0; i < matrix.Length; i++)
+        {
+            var index = Array.BinarySearch(matrix[i], target);
+            
+            if (index >= 0)
+                return true;
+        }
+        
+        return false;
+    }
+}
