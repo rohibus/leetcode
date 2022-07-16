@@ -1,0 +1,62 @@
+public class Solution {
+    int[] nums;
+    int m,k;
+    
+    public int MinDays(int[] bloomDay, int m1, int k1) 
+    {
+        nums = bloomDay;
+        int left = nums.Min();
+        int right = nums.Max();
+        int result = -1;
+        m = m1;
+        k = k1;
+        
+        if (nums.Length < m*k)
+            return -1;
+        
+        while (left <= right)
+        {
+            int mid = left + (right-left)/2;
+            
+            if (CanMake(mid))
+            {
+                result = mid;
+                right = mid-1;
+            }
+            else
+            {
+                left = mid+1;
+            }
+        }
+        
+        return result;
+    }
+    
+    public bool CanMake(int days)
+    {
+        int flowers = 0;
+        int bouquets = 0;
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (nums[i] <= days)
+            {
+                flowers++;
+            }
+            else
+            {
+                flowers = 0;
+            }
+            
+            if (flowers >= k)
+            {
+                bouquets++;
+                flowers = 0;
+            }
+            
+            if (bouquets >= m)
+                return true;
+        }
+        
+        return false;
+    }
+}

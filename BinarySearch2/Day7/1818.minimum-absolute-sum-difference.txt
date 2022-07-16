@@ -1,0 +1,41 @@
+public class Solution {
+    public int MinAbsoluteSumDiff(int[] nums1, int[] nums2) 
+    {
+        long result = 0;
+        int mod = 1000000007;
+        
+        for (int i = 0; i < nums1.Length; i++)
+        {
+            result += Math.Abs(nums1[i]-nums2[i]);
+            result %= mod;
+        }
+        
+        int[] sort = (int[])nums1.Clone();
+        Array.Sort(sort);
+        int save = 0;
+        
+        for (int i = 0; i < nums1.Length; i++)
+        {
+            if (nums1[i] == nums2[i])
+                continue;
+            
+            int index = Array.BinarySearch(sort, nums2[i]);
+            if (index < 0)
+                index = ~index;
+            
+            
+            int diff = Math.Abs(nums1[i]-nums2[i]);
+            
+            
+            if (index > 0)
+                save = Math.Max(save, diff - Math.Abs(nums2[i]-sort[index-1]));
+            if (index < nums1.Length && index >= 0)
+                save = Math.Max(save, diff - Math.Abs(nums2[i]-sort[index]));
+        }   
+        
+        result = result - save;
+        result += mod;
+        
+        return (int)result%mod;
+    }
+}
