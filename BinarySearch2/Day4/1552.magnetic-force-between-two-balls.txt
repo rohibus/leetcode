@@ -1,0 +1,52 @@
+public class Solution {
+    int[] nums;
+    int m;
+    public int MaxDistance(int[] position, int m1) 
+    {
+        Array.Sort(position);
+        nums = position;
+        m = m1;
+        
+        int start = 0;
+        int n = position.Length;
+        int end = position[n-1];
+        int ans = 1;
+        
+        while (start <= end)
+        {
+            int mid = start + (end-start)/2;
+            
+            if (IsValidGap(mid))
+            {
+                ans = mid;
+                start = mid+1;
+            }
+            else
+            {
+                end = mid -1;
+            }
+        }
+        
+        return ans;
+    }
+    
+    public bool IsValidGap(int gap)
+    {
+        int initial = 1;
+        int pre = nums[0];
+        
+        for (int i = 1; i < nums.Length; i++)
+        {
+            if (nums[i]-pre >= gap)
+            {
+                initial++;
+                pre = nums[i];
+                
+                if (initial == m)
+                    return true;
+            }
+        }
+        
+        return false;
+    }
+}
