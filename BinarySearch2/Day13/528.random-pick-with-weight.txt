@@ -1,0 +1,30 @@
+public class Solution 
+{
+    int[] preSum;
+    Random rnd = new Random();
+    
+    public Solution(int[] w) 
+    {
+        preSum = new int[w.Length];
+        int sum = 0;
+        
+        for (int i = 0; i < w.Length; i++)
+        {
+            sum += w[i];
+            preSum[i] = sum;
+        }
+    }
+    
+    public int PickIndex() 
+    {
+        int id = rnd.Next(1, preSum[preSum.Length-1]+1);
+        int index = Array.BinarySearch(preSum, id);
+        return index >= 0 ? index : ~index;
+    }
+}
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(w);
+ * int param_1 = obj.PickIndex();
+ */

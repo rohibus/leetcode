@@ -1,0 +1,49 @@
+public class Solution {
+    int[] nums;
+    public int FindMin(int[] nums) {
+        /*this.nums = nums;
+        int l = 0;
+        int r = nums.Length-1;
+        
+        return Search(l, r);*/
+        
+        int left = 0;
+        int right = nums.Length-1;
+        
+        while (left <= right)
+        {
+            int mid = left + (right - left)/2;
+            
+            if (nums[mid] > nums[right])
+            {
+                left = mid+1;
+            }
+            else if (nums[mid] < nums[right])
+            {
+                right = mid;
+            }
+            else
+            {
+                right--;
+            }
+        }
+        
+        return nums[left];
+    }
+    
+    public int Search(int l, int r)
+    {
+        if (l == r)
+            return nums[l];
+        
+        int mid = l + (r-l)/2;
+        
+        if (nums[mid] > nums[r])
+            return Search(mid+1, r);
+        
+        if (nums[mid] < nums[r])
+            return Search(l, mid);
+        
+        return Search(l, r-1);
+    }
+}
