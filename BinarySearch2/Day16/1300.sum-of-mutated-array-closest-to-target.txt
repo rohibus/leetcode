@@ -1,0 +1,56 @@
+public class Solution {
+    int[] nums;
+    int target;
+    
+    public int FindBestValue(int[] arr, int target) 
+    {
+        this.target = target;
+        nums = arr;
+        
+        int left = 0;
+        int right = arr.Max();
+        int left_diff = Int32.MaxValue;
+        int right_diff = Int32.MaxValue;
+        int left_best = 0;
+        int right_best = right;
+        
+        while (left <= right)
+        {
+            int mid = left + (right-left)/2;
+            int sum = DiffCalci(mid);
+
+            if (sum < target)
+            {
+                if (Math.Abs(target - sum) < left_diff)
+                {
+                    left_diff = Math.Abs(target - sum);
+                    left_best = mid;
+                }
+                left = mid+1; 
+            }
+            else
+            {
+                if (Math.Abs(target-sum) < right_diff)
+                {
+                    right_diff = Math.Abs(target-sum);
+                    right_best = mid;
+                }
+                right = mid-1;
+            }
+        }
+        
+        return left_diff <= right_diff ? left_best : right_best;
+    }
+    
+    public int DiffCalci(int key)
+    {
+        int sum = 0;
+        for (int i = 0; i < nums.Length; i++)
+        {
+            sum += nums[i] < key ? nums[i] : key;
+        }
+        
+        //Console.WriteLine(key + "   " + sum);
+        return sum;
+    }
+}

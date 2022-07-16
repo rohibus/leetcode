@@ -1,0 +1,64 @@
+public class TimeMap 
+{
+    public class Pairs
+    {
+        public int key;
+        public string value;
+        public Pairs(int key, string value)
+        {
+            this.key = key;
+            this.value = value; 
+        }
+    }
+    
+    Dictionary<string, List<Pairs>> map;
+    
+    public TimeMap() {
+        map = new Dictionary<string, List<Pairs>>();
+    }
+    
+    public void Set(string key, string value, int timestamp) 
+    {
+        if (!map.ContainsKey(key))
+            map.Add(key, new List<Pairs>());
+        
+        map[key].Add(new Pairs(timestamp, value));
+        
+    }
+    
+    public string Get(string key, int timestamp) 
+    {
+        if (!map.ContainsKey(key))
+            return "";
+        
+        string result = "";
+        int left = 0;
+        int right = map[key].Count()-1;
+        
+        while (left <= right)
+        {
+            int mid = left + (right-left)/2;
+            
+            Pairs current = map[key][mid];
+            
+            if (timestamp >= current.key)
+            {
+                result = current.value;
+                left = mid+1;
+            }
+            else
+            {
+                right = mid-1;
+            }
+        }
+        
+        return result;
+    }
+}
+
+/**
+ * Your TimeMap object will be instantiated and called as such:
+ * TimeMap obj = new TimeMap();
+ * obj.Set(key,value,timestamp);
+ * string param_2 = obj.Get(key,timestamp);
+ */
