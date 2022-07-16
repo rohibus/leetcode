@@ -1,0 +1,48 @@
+public class Solution {
+    
+    int threshold;
+    int[] num;
+    
+    public int SmallestDivisor(int[] nums, int _threshold) 
+    {
+        num = nums;
+        threshold = _threshold;
+        
+        int left = 1;
+        int right = 1000001;
+        int index = right;
+        
+        while (left <= right)
+        {
+            int mid = left + (right-left)/2;
+            
+            if (Divide(mid))
+            {
+                index = mid;
+                right = mid-1;
+            }
+            else
+            {
+                left = mid+1;
+            }
+        }
+        
+        return index;
+    }
+    
+    public bool Divide(int key)
+    {
+        int count = 0;
+        
+        for (int i = 0; i < num.Length; i++)
+        {
+            int dividend = (int)Math.Ceiling((double)num[i]/key);
+            count += dividend;
+            
+            if (count > threshold)
+                return false;
+        }
+        
+        return true;
+    }
+}
