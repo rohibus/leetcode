@@ -1,0 +1,79 @@
+public class Solution {
+    
+    public class Pairs
+    {
+        public int diff;
+        public int position;
+        
+        public Pairs(int i, int j)
+        {
+            diff = i;
+            position = j;
+        }
+    }
+    
+    Pairs[] p;
+    int n;
+    public int MaxProfitAssignment(int[] difficulty, int[] profit, int[] worker) 
+    {
+        n = difficulty.Length;
+        p = new Pairs[n];
+        
+        for (int i = 0; i < n; i++)
+        {
+            int diff = difficulty[i];
+            int position = i;
+            p[i] = new Pairs(diff, position);
+        }
+        
+        Array.Sort(p, (x, y) => x.diff - y.diff);
+        int max = 0;
+        
+        int preProf = profit[p[0].position];
+        p[0].position = preProf;
+        
+        for (int i = 1; i < n; i++)
+        {
+            int pos = p[i].position;
+            if (preProf < profit[pos])
+            {
+                preProf = profit[pos];
+            }
+            
+            p[i].position = preProf;
+        }
+        
+        for (int i = 0; i < worker.Length; i++)
+        {
+            int index = BinarySearch(worker[i]);
+            if (index != -1)
+                max += p[index].position;
+        }
+        
+        return max;
+    }
+    
+    public int BinarySearch(int key)
+    {
+        int index = -1;
+        int left = 0;
+        int right = n-1;
+        
+        while (left <= right)
+        {
+            int mid = left + (right-left)/2;
+            
+            if (p[mid].diff <= key)
+            {
+                index = mid;
+                left = mid+1;
+            }
+            else
+            {
+                right = mid - 1;
+            }
+        }
+        
+        return index;
+    }
+}
