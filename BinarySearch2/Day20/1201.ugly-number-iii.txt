@@ -1,0 +1,50 @@
+public class Solution {
+    public int NthUglyNumber(int n, int a, int b, int c) 
+    {
+        long aa = a;
+        long bb = b;
+        long cc = c;
+        long nn = n;
+        
+        int o = 0;
+        long low = 1;
+        long high = Int32.MaxValue;
+        
+        while (low < high)
+        {
+            long mid = low + (high-low)/2;
+            
+            o = (int) ((mid/a) + (mid/b) + (mid/c) - (mid/LCM(a,b)) - (mid/LCM(b,c)) - (mid/LCM(c,a)) + (mid/(LCM(a, LCM(b,c)))));
+            
+            if (o < n)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid;
+            }
+        }
+        
+        return (int)low;
+        
+    }
+    
+    public long GCD(long a, long b)
+    {
+        if (a > b)
+        {
+            return GCD(b, a);
+        }
+        
+        if (a == 0)
+            return b;
+        
+        return GCD(a, b % a);
+    }
+    
+    public long LCM(long a, long b)
+    {
+        return (a*b)/GCD(a, b);
+    }
+}

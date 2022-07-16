@@ -1,0 +1,77 @@
+public class TopVotedCandidate {
+    
+    public class Pairs
+    {
+        public int time;
+        public int candidate;
+        
+        public Pairs(int time, int candidate)
+        {
+            this.time = time;
+            this.candidate = candidate;
+        }
+    }
+    
+    Pairs[] p;
+    public TopVotedCandidate(int[] persons, int[] times) 
+    {
+        int n = persons.Length;
+        p = new Pairs[n];
+        int previous = -1;
+        int maxCount = 0;
+        Dictionary<int, int> map = new Dictionary<int, int>();
+        
+        for (int i = 0; i < n; i++)
+        {
+            if (!map.ContainsKey(persons[i]))
+                map.Add(persons[i], 0);
+            
+            map[persons[i]]++;
+            
+            int current = map[persons[i]];
+            
+            if (current >= maxCount)
+            {
+                previous = persons[i];
+                maxCount = current;
+            }
+            
+            p[i] = new Pairs(times[i], previous);
+        }
+        
+        /*foreach (var pair in p)
+        {
+            Console.WriteLine(pair.time + "     " + pair.candidate);
+        }*/
+    }
+    
+    public int Q(int t) 
+    {
+        int left = 0;
+        int right = p.Length-1;
+        int index = -1;
+        
+        while (left <= right)
+        {
+            int mid = left + (right-left)/2;
+            
+            if (p[mid].time <= t)
+            {
+                index = p[mid].candidate;
+                left = mid+1;
+            }
+            else
+            {
+                right = mid-1;
+            }
+        }
+        
+        return index;
+    }
+}
+
+/**
+ * Your TopVotedCandidate object will be instantiated and called as such:
+ * TopVotedCandidate obj = new TopVotedCandidate(persons, times);
+ * int param_1 = obj.Q(t);
+ */
