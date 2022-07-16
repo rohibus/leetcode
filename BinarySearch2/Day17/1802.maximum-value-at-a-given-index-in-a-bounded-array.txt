@@ -1,0 +1,51 @@
+public class Solution {
+    public int MaxValue(int n, int index, int maxSum) 
+    {
+        long leftSum = 0;
+        long rightSum = 0;
+        long left = 0;
+        long right = maxSum;
+        long result = 1;
+        
+        while (left <= right)
+        {
+            long mid = left + (right-left)/2;
+            
+            long leftlen = index;
+            long rightlen = n - (index+1);
+            
+            long m = mid-1;
+            if (mid-1 > leftlen)
+            {
+                leftSum = (m * (m+1))/2 - ((m-leftlen)*(m-leftlen+1))/2; 
+            }
+            else
+            {
+                leftSum = (m * (m+1))/2 + 1*(leftlen-m); 
+            }
+            
+            m = mid-1;
+            if (mid-1 > rightlen)
+            {
+                rightSum = (m * (m+1))/2 - ((m-rightlen)*(m-rightlen+1))/2; 
+            }
+            else
+            {
+                rightSum = (m * (m+1))/2 + 1*(rightlen-m); 
+            }
+            
+            long sum = mid + leftSum + rightSum;
+            if (sum <= maxSum)
+            {
+                result = mid;
+                left = mid+1;
+            }
+            else
+            {
+                right = mid-1;
+            }
+        }
+        
+        return (int)result;
+    }
+}
