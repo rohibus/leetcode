@@ -1,0 +1,31 @@
+public class Solution {
+    public int TriangleNumber(int[] nums) 
+    {
+        if (nums.Length < 3)
+            return 0;
+        
+        int res = 0;
+        Array.Sort(nums);
+        
+        for (int k = nums.Length-1; k >= 2; k--)
+        {
+            int left = 0; 
+            int right = k-1;
+            
+            while (left < right)
+            {
+                if (nums[left] + nums[right] > nums[k])
+                {
+                    res += right - left;
+                    right--;
+                }
+                else
+                {
+                    left++;
+                }
+            }
+        }
+        
+        return res;
+    }
+}
