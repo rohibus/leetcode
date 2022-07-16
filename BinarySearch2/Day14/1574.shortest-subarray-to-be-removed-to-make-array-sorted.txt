@@ -1,0 +1,39 @@
+public class Solution {
+    public int FindLengthOfShortestSubarray(int[] arr) 
+    {
+        int n = arr.Length;
+        int start = 0;
+        int end = n-1;
+        
+        //Start increasing
+        while (start < n-1 && arr[start] <= arr[start+1])
+            start++;
+        
+        if (start == n-1)
+            return 0;
+        
+        //End increasing 
+        while (end >= start && arr[end] >= arr[end-1])
+            end--;
+        
+        int result = Math.Min(n-start-1, end);
+        
+        int left = 0;
+        int right = end;
+        
+        while (left <= start && right < n)
+        {
+            if (arr[right] >= arr[left])
+            {
+                left++;
+                result = Math.Min(result, right-left);
+            }
+            else
+            {
+                right++;
+            }
+        }
+        
+        return result;
+    }
+}
