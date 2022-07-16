@@ -1,0 +1,57 @@
+public class Solution {
+    long[] preSum;
+    int[] nums;
+    int k;
+    
+    public int MaxFrequency(int[] num, int k1) 
+    {
+        Array.Sort(num);
+        nums = num;
+        k = k1;
+        preSum = new long[nums.Length];
+        
+        preSum[0] = nums[0];
+        for (int i = 1; i <nums.Length; i++)
+        {
+            preSum[i] = preSum[i-1] + nums[i];
+        }
+        
+        int max = 0;
+        int left = 0;
+        int right = nums.Length-1;
+        
+        while (left <= right)
+        {
+            int mid = left + (right-left)/2;
+            
+            if (CanMake(mid))
+            {
+                max = mid;
+                left = mid+1;
+            }
+            else
+            {
+                right = mid-1;
+            }
+        }
+        
+        return max+1;
+    }
+    
+    public bool CanMake(int key)
+    {
+        for (int i = key; i < nums.Length; i++)
+        {
+            long total = (long)nums[i]*(key+1);
+            int left = i-key-1;
+            long sum = preSum[i] - (left< 0 ? 0 : preSum[left]);
+            
+            if (sum+k >= total)
+                return true;
+        }
+        
+        return false;
+    }
+    
+    
+}

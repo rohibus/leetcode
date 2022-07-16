@@ -1,0 +1,47 @@
+public class Solution {
+    public int SingleNonDuplicate(int[] nums) 
+    {
+        if (nums.Length == 1)
+            return nums[0];
+        
+        int left = 0;
+        int right = nums.Length/2;
+        
+        while (left <= right)
+        {
+            int mid = left + (right-left)/2;
+            
+            if (2*mid+1 == nums.Length)
+            {
+                if (nums[2*mid] != nums[2*mid-1])
+                    return nums[2*mid];
+                else
+                    right = mid-1;
+            }
+            
+            else if (2*mid == 0)
+            {
+                if (nums[2*mid] != nums[2*mid+1])
+                    return nums[2*mid];
+                else
+                    left = mid+1;
+            }
+            
+            else if (nums[2*mid] == nums[2*mid+1])
+            {
+                left = mid+1;
+            }
+            else if (nums[2*mid] == nums[2*mid-1])
+            {
+                right = mid-1;
+            }
+            else
+            {
+                return nums[2*mid];
+            }
+                
+        }
+        
+        return -1;
+    }
+}
