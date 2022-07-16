@@ -1,0 +1,78 @@
+public class Solution {
+    int[] nums;
+    public IList<int> FindClosestElements(int[] arr, int k, int x) 
+    {
+        nums = arr;
+        int index = Search(x);
+        int left = index;
+        int right = index + 1;
+        List<int> result = new List<int>();
+        
+        while (k > 0)
+        {
+            if (right < nums.Length && left >= 0)
+            {
+                int a = Math.Abs(nums[left] - x);
+                int b = Math.Abs(nums[right] - x);
+                
+                if (a <= b)
+                {
+                    result.Add(nums[left]);
+                    left--;
+                }
+                else
+                {
+                    result.Add(nums[right]);
+                    right++;
+                }
+            }
+            else if (right < nums.Length)
+            {
+                result.Add(nums[right]);
+                right++;
+            }
+            else if (left >= 0)
+            {
+                result.Add(nums[left]);
+                left--;
+            }
+            else
+            {
+                break;
+            }
+                
+            k--;
+        }
+        
+        result.Sort();
+        return result;
+    }
+    
+    public int Search(int key)
+    {
+        int low = 0;
+        int high = nums.Length-1;
+        int index = -1;
+        
+        while (low <= high)
+        {
+            int mid = low + (high-low)/2;
+            
+            if (nums[mid] <= key)
+            {
+                index = mid;
+                low = mid + 1;
+            }
+            else 
+            {
+                high = mid-1;
+            }  
+        }
+        
+        if (index == -1)
+            return 0;
+        
+        return index;
+        
+    }
+}

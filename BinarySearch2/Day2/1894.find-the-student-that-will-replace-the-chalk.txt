@@ -1,0 +1,48 @@
+public class Solution {
+    long[] nums;
+    public int ChalkReplacer(int[] chalk, int k) 
+    {
+        nums = new long[chalk.Length];
+        long sum = 0;
+        for (int i = 0; i < chalk.Length; i++)
+        {
+            sum += chalk[i];
+            nums[i] = sum;
+        }
+        
+        int index = Array.BinarySearch(nums, k % sum);
+        Console.WriteLine(index + "     " + ~index);
+        return index >= 0 ? index + 1 : ~index;
+
+        
+        //return index;
+    }
+    
+    public int Search(long key)
+    {
+        int low = 0;
+        int high = nums.Length-1;
+        int index = -1;
+        
+        while (low <= high)
+        {
+            int mid = low + (high-low)/2;
+            
+            if (nums[mid] >= key)
+            {
+                index = mid;
+                high = mid-1;
+            }
+            else 
+            {
+                low = mid + 1;
+            }  
+        }
+        
+        if (index == -1)
+            return nums.Length-1;
+        
+        return index;
+        
+    }
+}
