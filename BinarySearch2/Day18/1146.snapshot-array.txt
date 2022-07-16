@@ -1,0 +1,73 @@
+public class SnapshotArray 
+{
+    public class Pairs
+    {
+        public int snapId;
+        public int value;
+        public Pairs(int snapId, int value)
+        {
+            this.snapId = snapId;
+            this.value = value;
+        }
+    }
+    
+    int[] nums;
+    public static int snapId;
+    List<Pairs>[] list;
+    
+    public SnapshotArray(int length) 
+    {
+        snapId = 0;
+        nums = new int[length];
+        list = new List<Pairs>[length];
+        for (int i = 0; i < length; i++)
+            list[i] = new List<Pairs>();
+    }
+    
+    public void Set(int index, int val) 
+    {
+        list[index].Add(new Pairs(snapId, val));
+        nums[index] = val;
+    }
+    
+    public int Snap() 
+    {
+        return snapId++;
+    }
+    
+    public int Get(int index, int snap_id) 
+    {
+        int result = 0;
+        if (list[index].Count() > 0)
+        {
+            int left = 0;
+            int right = list[index].Count()-1;
+            
+            while (left <= right)
+            {
+                int mid = left + (right-left)/2;
+                Pairs temp = list[index][mid];
+                
+                if (temp.snapId <= snap_id)
+                {
+                    result = temp.value;
+                    left = mid+1;
+                }
+                else
+                {
+                    right = mid-1;
+                }
+            }
+        }
+        
+        return result;
+    }
+}
+
+/**
+ * Your SnapshotArray object will be instantiated and called as such:
+ * SnapshotArray obj = new SnapshotArray(length);
+ * obj.Set(index,val);
+ * int param_2 = obj.Snap();
+ * int param_3 = obj.Get(index,snap_id);
+ */
